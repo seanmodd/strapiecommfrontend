@@ -12,3 +12,4 @@ Check /utils/urls for ENV Variables setup
 
 Backend at:
 https://github.com/GalloDaSballo/Next-Ecommerce-Backend
+# strapiecommfrontend
