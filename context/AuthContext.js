@@ -1,11 +1,11 @@
-import { createContext, useState, useEffect } from "react";
-import { Magic } from "magic-sdk";
-import { MAGIC_PUBLIC_KEY } from "../utils/urls";
-import { useRouter } from "next/router";
+import { createContext, useState, useEffect } from 'react';
+import { Magic } from 'magic-sdk';
+import { MAGIC_PUBLIC_KEY } from '../utils/urls';
+import { useRouter } from 'next/router';
 
 const AuthContext = createContext();
 
-let magic
+let magic;
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
@@ -19,7 +19,7 @@ export const AuthProvider = (props) => {
     try {
       await magic.auth.loginWithMagicLink({ email });
       setUser({ email });
-      router.push("/");
+      router.push('/');
     } catch (err) {
       console.log(err);
     }
@@ -32,7 +32,7 @@ export const AuthProvider = (props) => {
     try {
       await magic.user.logout();
       setUser(null);
-      router.push("/");
+      router.push('/');
     } catch (err) {
       console.log(err);
     }
@@ -43,17 +43,17 @@ export const AuthProvider = (props) => {
    */
   const checkUserLoggedIn = async () => {
     try {
-        const isLoggedIn = await magic.user.isLoggedIn();
+      const isLoggedIn = await magic.user.isLoggedIn();
 
-        if (isLoggedIn) {
-            const { email } = await magic.user.getMetadata();
-            setUser({ email });
-            //Add this just for test
-            const token = await getToken()
-            console.log("checkUserLoggedIn token", token)
-        }
+      if (isLoggedIn) {
+        const { email } = await magic.user.getMetadata();
+        setUser({ email });
+        //Add this just for test
+        const token = await getToken();
+        console.log('checkUserLoggedIn token', token);
+      }
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
   };
 
@@ -63,20 +63,20 @@ export const AuthProvider = (props) => {
    */
   const getToken = async () => {
     try{
-      const token = await magic.user.getIdToken()
-      return token
+      const token = await magic.user.getIdToken();
+      return token;
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   /**
    * Reload user login on app refresh
    */
   useEffect(() => {
-        magic = new Magic(MAGIC_PUBLIC_KEY)
+    magic = new Magic(MAGIC_PUBLIC_KEY);
         
-        checkUserLoggedIn()
+    checkUserLoggedIn();
   }, []);
 
   return (
@@ -87,4 +87,4 @@ export const AuthProvider = (props) => {
 };
 
 
-export default AuthContext
+export default AuthContext;
